@@ -11,7 +11,7 @@ const roundTo = require('round-to');
 
 const topUsers = require('./lib/top-users');
 
-const db = level(path.resolve('./db'), {valueEncoding: 'json'});
+const db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 
 const users = {};
 
