@@ -5,10 +5,10 @@ const level = require('level');
 const moment = require('moment');
 const path = require('path');
 
-var db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
+const db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 
-var dates = [];
-var date = moment.utc();
+const dates = [];
+const date = moment.utc();
 while (date.isAfter(moment.utc().subtract(1, 'month'))) {
   dates.push(date.toISOString());
   date.subtract(1, 'day');
@@ -16,7 +16,7 @@ while (date.isAfter(moment.utc().subtract(1, 'month'))) {
 
 eachAsync(dates, (date, done) => {
   console.log(date);
-  var ops = [];
+  const ops = [];
   logs({
     channel: 'Destinygg',
     date: date
