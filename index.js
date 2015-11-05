@@ -3,8 +3,9 @@ const logs = require('overrustle-logs');
 const cuid = require('cuid');
 const level = require('level');
 const moment = require('moment');
+const path = require('path');
 
-var db = level('./db', {valueEncoding: 'json'});
+var db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 
 var dates = [];
 var date = moment.utc();
