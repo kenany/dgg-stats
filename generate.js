@@ -10,6 +10,7 @@ const wordcount = require('wordcount');
 const roundTo = require('round-to');
 
 const topUsers = require('./lib/top-users');
+const mostQuestions = require('./lib/most-questions');
 
 const db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 
@@ -47,15 +48,9 @@ db.createValueStream()
   .on('end', render);
 
 function render() {
-  var max = 0;
-  var dumb = null;
-  Object.keys(users).forEach(function(u) {
-    const fraction = users[u].questions / users[u].lines;
-    if (fraction > max && users[u].lines > Math.sqrt(12974)) {
-      dumb = u;
-      max = fraction;
-    }
-  });
+  // bigAsk[0] is the username, bigAsk[1] is the fraction of lines that
+  // contained a question.
+  const bigAsk = mostQuestions(users);
 
   const bigNumbers = h('table', [
     h('thead', [
@@ -65,8 +60,8 @@ function render() {
     ]),
     h('tbody', [
       h('tr', [
-        h('td', 'Is ' + dumb + ' stupid or just asking too many questions? '
-          + roundTo(100 * max, 1) + '% of their lines contained a question!')
+        h('td', `Why does ${bigAsk[0]} ask so many questions?
+          ${roundTo(100 * bigAsk[1], 1)}% of their lines contained a question!`)
       ])
     ])
   ]);
