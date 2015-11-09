@@ -31,7 +31,7 @@ db.createValueStream()
 
     // Cumulative moving average of the number of words in this user's messages.
     var avg = users[data.user].avgWords;
-    avg = avg + (wordcount(data.message) - avg) / users[data.user].lines;
+    avg += (wordcount(data.message) - avg) / users[data.user].lines;
     users[data.user].avgWords = avg;
 
     users[data.user].quotes.push(data.message);
