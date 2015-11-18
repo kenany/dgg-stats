@@ -67,24 +67,24 @@ function render() {
   ]);
 
   const content = h('div', [
-    h('p', 'Stats generated on ' + moment.utc().toISOString()),
-    h('p', 'In the last 31 days, a total of ' + Object.keys(users).length
-      + ' different nicks were represented on destiny.gg.'),
+    h('p', `Stats generated on ${moment.utc().toISOString()}`),
+    h('p', `In the last 31 days, a total of ${Object.keys(users).length}
+      different nicks were represented on destiny.gg.`),
     topUsers(users),
     bigNumbers
   ]);
 
-  const html = fromString([
-    '<!doctype html>',
-    '<head>',
-    '  <meta charset="utf-8">',
-    '  <link rel="stylesheet" type="text/css" href="style.css">',
-    '</head>',
-    '<body>',
-    createElement(content).toString(),
-    '</body>',
-    '</html>'
-  ].join(''));
+  const html = fromString(`
+    <!doctype html>
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+    ${createElement(content).toString()}
+    </body>
+    </html>
+  `);
 
   html.pipe(inline({ignoreImages: true})).pipe(process.stdout);
 }
