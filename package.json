@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "generate": "node generate.js > index.html"
+  },
   "dependencies": {
     "alea-deck": "^1.1.6",
     "async-each-series": "^1.1.0",
