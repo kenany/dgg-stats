@@ -48,8 +48,6 @@ db.createValueStream()
   .on('end', render);
 
 function render() {
-  // bigAsk[0] is the username, bigAsk[1] is the fraction of lines that
-  // contained a question.
   const bigAsk = mostQuestions(users);
 
   const bigNumbers = h('table', [
@@ -60,8 +58,11 @@ function render() {
     ]),
     h('tbody', [
       h('tr', [
-        h('td', `Why does ${bigAsk[0]} ask so many questions?
-          ${roundTo(100 * bigAsk[1], 1)}% of their lines contained a question!`)
+        h('td', `Why does ${bigAsk[0][0]} ask so many questions?
+          ${roundTo(100 * bigAsk[0][1], 1)}% of their lines contained a
+          question! ${bigAsk[1][0]} came in close second with
+          ${roundTo(100 * bigAsk[1][1], 1)}% of their lines containing a
+          question.`)
       ])
     ])
   ]);
