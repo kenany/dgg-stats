@@ -18,12 +18,14 @@ const db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 const users = {};
 
 function onData(data, next) {
+  const time = moment.utc(data.timestamp, moment.ISO_8601);
+
   if (!users[data.user]) {
     users[data.user] = {
       lines: 0,
       avgWords: 0,
       quotes: [],
-      latest: moment.utc(data.timestamp, moment.ISO_8601),
+      latest: time,
       questions: 0
     };
   }
@@ -37,8 +39,8 @@ function onData(data, next) {
 
   users[data.user].quotes.push(data.message);
 
-  if (moment.utc(data.timestamp, moment.ISO_8601).isAfter(users[data.user].latest)) {
-    users[data.user].latest = moment.utc(data.timestamp, moment.ISO_8601);
+  if (time.isAfter(users[data.user].latest)) {
+    users[data.user].latest = time;
   }
 
   if (data.message.indexOf('?') !== -1) {
