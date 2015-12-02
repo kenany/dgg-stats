@@ -17,6 +17,7 @@
     "moment": "^2.10.6",
     "overrustle-logs": "^2.0.0",
     "round-to": "^1.1.0",
+    "stream-each": "^1.1.0",
     "virtual-dom": "^2.1.1",
     "word-regex": "^0.1.0",
     "wordcount": "^1.1.1"

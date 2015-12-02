@@ -4,6 +4,7 @@ const cuid = require('cuid');
 const level = require('level');
 const moment = require('moment');
 const path = require('path');
+const streamEach = require('stream-each');
 
 const db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 
@@ -17,21 +18,26 @@ while (date.isAfter(moment.utc().subtract(1, 'month'))) {
 eachAsync(dates, (date, done) => {
   console.log(date);
   const ops = [];
-  logs({
-    channel: 'Destinygg',
-    date: date
-  })
-  .on('data', data => {
+
+  function onData(data, next) {
     ops.push({
       type: 'put',
       key: cuid(),
       value: data
     });
-  })
-  .on('end', () => {
+
+    next();
+  }
+
+  function onEnd() {
     console.log('batching up ' + ops.length + ' ops');
     db.batch(ops, done);
-  });
+  }
+
+  streamEach(logs({
+    channel: 'Destinygg',
+    date: date
+  }), onData, onEnd);
 }, error => {
   if (error) {
     throw error;
