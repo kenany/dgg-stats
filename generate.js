@@ -12,10 +12,13 @@ const streamEach = require('stream-each');
 
 const topUsers = require('./lib/top-users');
 const mostQuestions = require('./lib/most-questions');
+const CommonWords = require('./lib/common-words');
+const array2vdom = require('./lib/array-to-vdom-table');
 
 const db = level(path.resolve(__dirname, 'db'), {valueEncoding: 'json'});
 
 const users = {};
+const words = new CommonWords();
 
 function onData(data, next) {
   const time = moment.utc(data.timestamp, moment.ISO_8601);
@@ -47,6 +50,8 @@ function onData(data, next) {
     users[data.user].questions++;
   }
 
+  words.add(data.message);
+
   next();
 }
 
@@ -70,12 +75,21 @@ function render() {
     ])
   ]);
 
+  const rows = [['', 'word', 'uses']];
+  var pos = 1;
+  words.get().slice(0, 10).map(x => {
+    // x[0] word, x[1] uses
+    rows.push([pos++, x[0], x[1]]);
+  });
+  const commonWords = array2vdom(rows);
+
   const content = h('div', [
     h('p', `Stats generated on ${moment.utc().toISOString()}`),
     h('p', `In the last 31 days, a total of ${Object.keys(users).length}
       different nicks were represented on destiny.gg.`),
     topUsers(users),
-    bigNumbers
+    bigNumbers,
+    commonWords
   ]);
 
   const html = fromString(`
