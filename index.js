@@ -1,3 +1,5 @@
+'use strict';
+
 const eachAsync = require('async-each-series');
 const logs = require('overrustle-logs');
 const cuid = require('cuid');
