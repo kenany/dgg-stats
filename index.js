@@ -32,7 +32,7 @@ eachAsync(dates, (date, done) => {
   }
 
   function onEnd() {
-    console.log('batching up ' + ops.length + ' ops');
+    console.log(`batching up ${ops.length} ops`);
     db.batch(ops, done);
   }
 
