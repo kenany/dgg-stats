@@ -1,3 +1,5 @@
+'use strict';
+
 const level = require('level');
 const path = require('path');
 const h = require('virtual-dom/h');
