@@ -38,7 +38,7 @@ function onData(data, next) {
   users[data.user].lines++;
 
   // Cumulative moving average of the number of words in this user's messages.
-  var avg = users[data.user].avgWords;
+  let avg = users[data.user].avgWords;
   avg += (wordcount(data.message) - avg) / users[data.user].lines;
   users[data.user].avgWords = avg;
 
@@ -78,7 +78,7 @@ function render() {
   ]);
 
   const rows = [['', 'word', 'uses']];
-  var pos = 1;
+  let pos = 1;
   words.get().slice(0, 10).map(x => {
     // x[0] word, x[1] uses
     rows.push([pos++, x[0], x[1]]);
