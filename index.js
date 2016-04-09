@@ -40,7 +40,7 @@ eachAsync(dates, (date, done) => {
     channel: 'Destinygg',
     date: date
   }), onData, onEnd);
-}, error => {
+}, (error) => {
   if (error) {
     throw error;
   }
