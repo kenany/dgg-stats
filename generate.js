@@ -79,7 +79,7 @@ function render() {
 
   const rows = [['', 'word', 'uses']];
   let pos = 1;
-  words.get().slice(0, 10).map(x => {
+  words.get().slice(0, 10).map((x) => {
     // x[0] word, x[1] uses
     rows.push([pos++, x[0], x[1]]);
   });
